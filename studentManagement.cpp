@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include <algorithm>
 using namespace std;
 
 class Student{
@@ -13,23 +14,32 @@ class Student{
         roll=001;
         CGPA=9.0;
         listOfCourses={"Mathematics","FOCP"};
-        // cout<<"Hello\n";
     }
+
     Student(string n,int rn,float cg,string lC){
         name=n;
         roll=rn;
         CGPA=cg;
         listOfCourses.push_back(lC);
     }
+
     Student(Student &t){
         name=t.name;
         roll=t.roll+1;
         CGPA=t.CGPA;
         listOfCourses=t.listOfCourses;
     }
+
     void updateCGPA(){
+            float c;
             cout<<"Enter updated CGPA: ";
-            cin>>CGPA;
+            cin>>c;
+            if(c>10 || c<0){
+                cout<<"Invalid CGPA."; 
+            }
+            else{
+                CGPA==c;
+            }
         
     }
     void displayInfo(){
@@ -45,13 +55,24 @@ class Student{
         cout<<"----------###############----------"<<endl;
     }
 
-    
-
     // Functionality
+    void checkDuplicacy(){
+        sort(listOfCourses.begin(),listOfCourses.end());
+        auto it=unique(listOfCourses.begin(),listOfCourses.end());
+        listOfCourses.erase(it,listOfCourses.end());
+        cout<<"Removed duplicate Subjects."<<endl;
+    }
     void addNewCourses(){
+        if(listOfCourses.size()>=6){
+            cout<<"Maximum Number of Subjects reached."<<endl;
+            return;
+        }
+        else{
         int n;
+        int c=6-listOfCourses.size();
         cout<<"Enter number of subjects to add: "<<endl;
         cin>>n;
+        if(n<=c){
         string newCourse;
         for(int i=1;i<=n;i++){
             if(i==1){
@@ -69,6 +90,13 @@ class Student{
             cin>>newCourse;
             listOfCourses.push_back(newCourse);
         }
+        checkDuplicacy();
+        }
+        else{
+            cout<<"Maximum number of subjects reached."<<endl;
+            return;
+        }
+    }
     }
     ~Student(){
         // clears data ;
